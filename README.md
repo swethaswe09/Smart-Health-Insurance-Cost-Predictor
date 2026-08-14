@@ -16,6 +16,17 @@ Rest Demographic (> 25 years): Uses XGBoost Regressor, capable of capturing co
 ⚙️ How It Works (Architecture)
 
 The application processes user inputs, calculates a custom risk score, and routes the data to the specific model trained for that age group.
+graph
+    A[User Input via Streamlit] --> B[Preprocessing]
+    B --> C[Calculate Normalized Risk Score]
+    B --> D[One-Hot Encoding]
+    D --> E[Age Check]
+    E -->|Age <= 25| F[Scale Data (Scaler Young)]
+    F --> G[Linear Regression Model]
+    E -->|Age > 25| H[Scale Data (Scaler Rest)]
+    H --> I[XGBoost Regressor Model]
+    G --> J[Final Cost Prediction]
+    I --> J
 
 
 🚀 Features
@@ -44,8 +55,17 @@ Pandas: Data manipulation.
 
 📂 Project Structure
 
-Smart-Health-Insurance-Cost-Predictor
-
+Smart-Health-Insurance-Cost-Predictor/
+│
+├── artifacts/
+│   ├── model_young.joblib       # Linear Regression Model
+│   ├── model_rest.joblib        # XGBoost Model
+│   ├── scaler_young.joblib      # Scaler for <= 25
+│   └── scaler_rest.joblib       # Scaler for > 25
+│
+├── main.py                      # Streamlit Frontend Application
+├── prediction_helper.py         # Logic for Preprocessing & Prediction
+└── README.md                    # Project Documentation
 
 
 🔧 Installation & Usage
