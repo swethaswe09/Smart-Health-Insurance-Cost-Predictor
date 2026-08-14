@@ -1,99 +1,158 @@
 # Smart-Health-Insurance-Cost-Predictor
 
+# Smart Health Insurance Cost Predictor
 
 A robust Machine Learning web application designed to predict health insurance premiums based on user demographics, health history, and policy preferences.
 
+## 🧠 Project Overview
 
+The **Smart Health Insurance Cost Predictor** solves the challenge of non-linear pricing in insurance. Insurance costs often behave differently for young adults compared to older demographics due to varying risk factors.
 
-🧠 Project Overview
+To address this, the project employs a **Hybrid Model Strategy**:
 
-The Smart-Health-Insurance-Cost-Predictor solves the challenge of non-linear pricing in insurance. Insurance costs often behave differently for young adults compared to older demographics due to risk factors. To address this, this project employs a Hybrid Model Strategy:
+- **Young Demographic (≤ 25 years):** Uses Linear Regression (Scikit-Learn), as costs tend to scale more linearly within this age group.
+- **Rest Demographic (> 25 years):** Uses XGBoost Regressor, which can capture complex, non-linear relationships and interactions between age, BMI, and medical history.
 
-Young Demographic (≤ 25 years): Uses Linear Regression (Standard Sklearn), as costs tend to scale linearly with specific factors in this bracket.
+## ⚙️ How It Works
 
-Rest Demographic (> 25 years): Uses XGBoost Regressor, capable of capturing complex, non-linear relationships and interactions between age, BMI, and medical history.
+The application processes user inputs, calculates a custom risk score, and routes the data to the appropriate model based on age.
 
-⚙️ How It Works (Architecture)
-
-The application processes user inputs, calculates a custom risk score, and routes the data to the specific model trained for that age group.
-graph
+```mermaid
+graph TD
     A[User Input via Streamlit] --> B[Preprocessing]
     B --> C[Calculate Normalized Risk Score]
     B --> D[One-Hot Encoding]
     D --> E[Age Check]
-    E -->|Age <= 25| F[Scale Data (Scaler Young)]
+    E -->|Age <= 25| F[Scale Data - Scaler Young]
     F --> G[Linear Regression Model]
-    E -->|Age > 25| H[Scale Data (Scaler Rest)]
+    E -->|Age > 25| H[Scale Data - Scaler Rest]
     H --> I[XGBoost Regressor Model]
     G --> J[Final Cost Prediction]
     I --> J
+```
 
+## 🚀 Features
 
-🚀 Features
+### Dual-Model Engine
+Automatically switches between the Linear Regression model for users aged ≤ 25 and the XGBoost model for users aged > 25.
 
-Dual-Model Engine: Automatic switching between model_young.joblib and model_rest.joblib for optimized accuracy.
+### Custom Risk Calculation
+Computes a normalized risk score based on medical history such as:
 
-Custom Risk Calculation: Computes a normalized risk score based on medical history (Diabetes, BP, Heart issues, etc.) and genetic factors.
+- Diabetes
+- High blood pressure
+- Heart disease
+- Thyroid conditions
+- Genetic risk
 
-Interactive UI: Built with Streamlit for an easy-to-use form interface.
+### Interactive UI
+Built with Streamlit to provide an easy-to-use interface for entering customer information and receiving premium predictions.
 
-Smart Scaling: Applies different MinMaxScalers depending on the age demographic to preserve data integrity.
+### Smart Scaling
+Applies different scalers depending on the user's age demographic to maintain consistency with the training data.
 
-🛠️ Technologies Used
+## 🛠️ Technologies Used
 
-Python: Core logic.
+| Technology | Purpose |
+|---|---|
+| Python | Core programming and application logic |
+| Streamlit | Web application interface |
+| XGBoost | Non-linear regression model |
+| Scikit-Learn | Linear Regression and preprocessing |
+| Joblib | Model and scaler serialization |
+| Pandas | Data manipulation |
 
-Streamlit: Web interface.
+## 📂 Project Structure
 
-XGBoost: Advanced Gradient Boosting for complex predictions.
+```text
+Smart-Health-Insurance-Cost-Predictor/
+│
+├── artifacts/
+│   ├── model_young.joblib       # Linear Regression Model
+│   ├── model_rest.joblib        # XGBoost Model
+│   ├── scaler_young.joblib      # Scaler for <= 25
+│   └── scaler_rest.joblib       # Scaler for > 25
+│
+├── main.py                      # Streamlit Frontend Application
+├── prediction_helper.py         # Preprocessing and Prediction Logic
+└── README.md                    # Project Documentation
+```
 
-Scikit-Learn: Linear Regression and Preprocessing.
+## 🔧 Installation & Usage
 
-Joblib: Model serialization.
+### 1. Clone the Repository
 
-Pandas: Data manipulation.
-
-📂 Project Structure
-
-Smart-Health-Insurance-Cost-Predictor
-
-• artifacts/
-
-  • model_young.joblib — Linear Regression Model
-  • model_rest.joblib — XGBoost Model
-  • scaler_young.joblib — Scaler for ≤ 25
-  • scaler_rest.joblib — Scaler for > 25
-
-• main.py — Streamlit Frontend Application
-• prediction_helper.py — Logic for Preprocessing & Prediction
-• README.md — Project Documentation
-
-
-🔧 Installation & Usage
-
-Clone the Repository
-
-git clone [https://github.com/yourusername/Smart-Health-Insurance-Cost-Predictor.git](https://github.com/yourusername/Smart-Health-Insurance-Cost-Predictor.git)
+```bash
+git clone https://github.com/yourusername/Smart-Health-Insurance-Cost-Predictor.git
 cd Smart-Health-Insurance-Cost-Predictor
+```
 
-Install Dependencies
+### 2. Install Dependencies
 
+```bash
 pip install pandas joblib scikit-learn xgboost streamlit
+```
 
-Run the Application
+### 3. Run the Application
 
+```bash
 python -m streamlit run main.py
+```
 
-Access the App Open your browser and navigate to https://smart-health-insurance-cost-predictor.streamlit.app/
+### 4. Access the App
 
-📊 Inputs Used for Prediction
+The deployed application is available here:
 
-The model takes the following parameters to calculate the premium:
+https://smart-health-insurance-cost-predictor.streamlit.app/
 
-Demographics: Age, Gender, Marital Status, Region.
+## 📊 Inputs Used for Prediction
 
-Economic: Income (in Lakhs), Employment Status.
+The model uses the following parameters to predict the insurance premium.
 
-Health: BMI Category, Smoking Status, Medical History, Genetical Risk.
+### Demographics
+- Age
+- Gender
+- Marital Status
+- Region
 
-Policy: Insurance Plan (Bronze, Silver, Gold), Number of Dependants.
+### Economic
+- Income in Lakhs
+- Employment Status
+
+### Health
+- BMI Category
+- Smoking Status
+- Medical History
+- Genetical Risk
+
+### Policy
+- Insurance Plan
+- Number of Dependants
+
+## 📈 Model Strategy
+
+The project uses different models for different age groups:
+
+```text
+                    User Input
+                        │
+                        ▼
+                  Preprocessing
+                        │
+                        ▼
+                   Age Check
+                  /          \
+                 /            \
+          Age <= 25          Age > 25
+              │                  │
+              ▼                  ▼
+       Linear Regression      XGBoost
+              │                  │
+              └────────┬─────────┘
+                       ▼
+                Premium Prediction
+```
+
+## 🎯 Project Goal
+
+The goal of this project is to build a practical machine learning application that combines data preprocessing, feature engineering, risk scoring, model selection, and deployment into a single end-to-end insurance premium prediction system.
