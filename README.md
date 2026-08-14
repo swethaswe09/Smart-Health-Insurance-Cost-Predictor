@@ -55,17 +55,18 @@ Pandas: Data manipulation.
 
 📂 Project Structure
 
-Smart-Health-Insurance-Cost-Predictor/
-│
-├── artifacts/
-│   ├── model_young.joblib       # Linear Regression Model
-│   ├── model_rest.joblib        # XGBoost Model
-│   ├── scaler_young.joblib      # Scaler for <= 25
-│   └── scaler_rest.joblib       # Scaler for > 25
-│
-├── main.py                      # Streamlit Frontend Application
-├── prediction_helper.py         # Logic for Preprocessing & Prediction
-└── README.md                    # Project Documentation
+Smart-Health-Insurance-Cost-Predictor
+
+• artifacts/
+
+  • model_young.joblib — Linear Regression Model
+  • model_rest.joblib — XGBoost Model
+  • scaler_young.joblib — Scaler for ≤ 25
+  • scaler_rest.joblib — Scaler for > 25
+
+• main.py — Streamlit Frontend Application
+• prediction_helper.py — Logic for Preprocessing & Prediction
+• README.md — Project Documentation
 
 
 🔧 Installation & Usage
