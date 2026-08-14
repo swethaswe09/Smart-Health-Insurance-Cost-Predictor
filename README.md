@@ -1,6 +1,5 @@
 # Smart-Health-Insurance-Cost-Predictor
 
-# Smart Health Insurance Cost Predictor
 
 A robust Machine Learning web application designed to predict health insurance premiums based on user demographics, health history, and policy preferences.
 
